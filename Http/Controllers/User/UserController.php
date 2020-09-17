@@ -109,7 +109,7 @@ class UserController extends Controller
             $user->save();
                 
             \Session::flash('message', 'User Added Successfuly.');
-            return redirect('/admin/user');
+            return redirect('/user');
         }
     }
 
@@ -176,7 +176,7 @@ class UserController extends Controller
             $user->save();
              
             \Session::flash('message', 'User Details Updated Successfully.');
-            return redirect('/admin/user');
+            return redirect('/user');
         }
     }
 
