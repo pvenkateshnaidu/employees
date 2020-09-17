@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Libraries\Access;
 use Illuminate\Support\Facades\Hash;
-
-class UserController extends Controller
+use Illuminate\Notifications\Notifiable;
+class UserController extends  Controller  
 {
-
+    use  Notifiable;
     /**
      * Display a listing of the resource.
      *
