@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 class UserController extends  Controller  
 {
-    use  Notifiable;
+   
     /**
      * Display a listing of the resource.
      *
