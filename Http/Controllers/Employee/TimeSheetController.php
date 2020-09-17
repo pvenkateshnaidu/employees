@@ -66,7 +66,8 @@ class TimeSheetController extends Controller
         }
         
         $rules = [           
-            'duration' => 'required',         
+            'duration' => 'required',     
+            'fromDate' => 'unique:employeetimesheet,fromDate,NULL,timeSheetId,userId,'.\Auth::user()->id      
         ];
 
         $validator = \Validator::make($request->all(), $rules);
@@ -90,16 +91,20 @@ class TimeSheetController extends Controller
             }
            
             $user = new \App\Models\TimeSheet();                  
-            $user->duration = $request->duration;     
-            if($request->dates)
-            {
-            $dates = explode(' - ', $request->dates);
-            $user->fromDate = \Carbon\Carbon::parse($dates[0])->format('Y-m-d');
-            $user->toDate =  \Carbon\Carbon::parse($dates[1])->format('Y-m-d');
-            }
+            if($request->fromDate)
+            {           
+            $user->fromDate = \Carbon\Carbon::parse($request->fromDate)->format('Y-m-d');         
+            }     
+            $user->duration = $request->duration;           
             if($request->assignment){
                 $user->assignment = $request->assignment;
-            }                 
+            }                    
+            if($request->note){
+                $user->note = $request->note;
+            } 
+            if($request->serviceCode){
+                $user->serviceCode = $request->serviceCode;
+            }               
             if ($otherDocumentpath) {
                 $user->document = $otherDocumentpath;
             }                 
@@ -141,9 +146,9 @@ class TimeSheetController extends Controller
     public function update(Request $request, $id)
     {
         $rules     = [
-            'duration'     => 'required',
-           
+            'duration' => 'required',     
         ];
+        
         $validator = \Validator::make($request->all(), $rules);
         if ($validator->fails())
         {
@@ -167,17 +172,20 @@ class TimeSheetController extends Controller
             }
             // add user
             $user = \App\Models\TimeSheet::find($id);    
-            if($request->dates)
-            {
-            $dates = explode(' - ', $request->dates);
-            $user->fromDate = \Carbon\Carbon::parse($dates[0])->format('Y-m-d');
-            $user->toDate =  \Carbon\Carbon::parse($dates[1])->format('Y-m-d');
+            if($request->fromDate)
+            {           
+            $user->fromDate = \Carbon\Carbon::parse($request->fromDate)->format('Y-m-d');         
             }     
             $user->duration = $request->duration;           
             if($request->assignment){
                 $user->assignment = $request->assignment;
-            }   
-         
+            }                    
+            if($request->note){
+                $user->note = $request->note;
+            } 
+            if($request->serviceCode){
+                $user->serviceCode = $request->serviceCode;
+            } 
             if ($otherDocumentpath) {
                 $user->document = $otherDocumentpath;
             }    
