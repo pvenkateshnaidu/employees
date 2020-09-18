@@ -32,7 +32,7 @@ class TimeSheetController extends Controller
         }
        
 
-        $timesheets = \App\Models\TimeSheet::with('user_details')->where($where)->paginate(config('wallet.resultsPerPage'));
+        $timesheets = \App\Models\TimeSheet::with('user_details')->where($where)->orderBy('created_at', 'desc')->paginate(config('wallet.resultsPerPage'));
 
         return view('admin.employee.timesheet.index', ['timesheets' => $timesheets]);
     }
@@ -48,8 +48,20 @@ class TimeSheetController extends Controller
         {
             return redirect('admin/home');
         }
+        $where = [];
+        if(\Auth::user()->user_type=='A')  
+        {
+           
+        }else{
+            $where['userId'] = \Auth::user()->id;
+        }
+       
+
+        $timesheets = \App\Models\TimeSheet::with('user_details')->where($where)->take(5)->orderBy('created_at', 'desc')->get();
+
+        return view('admin.employee.timesheet.create', ['timesheets' => $timesheets]);
  
-        return view('admin.employee.timesheet.create');
+     
     }
 
     /**
@@ -111,7 +123,7 @@ class TimeSheetController extends Controller
             $user->created_at = date('Y-m-d H:i:s');
             $user->save();  
             \Session::flash('message', 'TimeSheet Added Successfuly.');
-            return redirect('timesheet');
+            return redirect('timesheet/create');
         }
     }
 
