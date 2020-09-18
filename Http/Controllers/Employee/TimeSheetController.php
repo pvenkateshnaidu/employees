@@ -95,13 +95,11 @@ class TimeSheetController extends Controller
             {           
             $user->fromDate = \Carbon\Carbon::parse($request->fromDate)->format('Y-m-d');         
             }     
-            $user->duration = $request->duration;           
+            $user->duration = $request->duration;  
             if($request->assignment){
                 $user->assignment = $request->assignment;
-            }                    
-            if($request->note){
-                $user->note = $request->note;
-            } 
+            }                           
+          
             if($request->serviceCode){
                 $user->serviceCode = $request->serviceCode;
             }               
@@ -180,9 +178,7 @@ class TimeSheetController extends Controller
             if($request->assignment){
                 $user->assignment = $request->assignment;
             }                    
-            if($request->note){
-                $user->note = $request->note;
-            } 
+          
             if($request->serviceCode){
                 $user->serviceCode = $request->serviceCode;
             } 

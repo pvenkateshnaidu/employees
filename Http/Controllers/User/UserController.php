@@ -52,7 +52,7 @@ class UserController extends  Controller
      
        
        
-        $users = \App\Models\User::select('id','name','email','user_type','created_at','user_status')
+        $users = \App\Models\User::select('*')
          ->where($where)->paginate(config('wallet.resultsPerPage'));
 
         return view('admin.users.index', ['users' => $users]);
@@ -105,6 +105,7 @@ class UserController extends  Controller
             $user->name      = $request->name;
             $user->email     = $request->email;
             $user->user_type = $request->userType;
+            $user->technologyAssign = $request->technology;
             $user->password  =  Hash::make($request->password);
             $user->save();
                 
@@ -157,7 +158,7 @@ class UserController extends  Controller
             'name'     => 'required|alpha_spaces',
             'email'    => 'required|email|valid_email|unique:users,email,' . $id . ',id',         
             'userType' => 'required|in:A,S,H,U,E',
-            'password' => 'string|password'
+           
         ];
         $validator = \Validator::make($request->all(), $rules);
         if ($validator->fails())
@@ -171,6 +172,7 @@ class UserController extends  Controller
             $user->name      = $request->name;
             $user->email     = $request->email;
             $user->user_type = $request->userType;
+            $user->technologyAssign = $request->technology;
             if($request->password)
             $user->password  =  Hash::make($request->password);
             $user->save();
